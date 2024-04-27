@@ -24,7 +24,9 @@ const registerStyles = StyleSheet.create({
   },
   registerText: {
     fontSize: 20,
-    textAlign: "center" // Center the text within the button
+    textAlign: "center", // Center the text within the button
+    width:'100%',
+    
   }
 });
 

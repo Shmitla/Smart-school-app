@@ -5,7 +5,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Home';
 import Login from './screens/Login';
 import Register from './screens/Register';
+import axios from 'axios';
 const Stack = createNativeStackNavigator();
+
+axios.defaults.baseURL = 'https://smart-school-app-back.onrender.com';
 export default function App() {
   return (
     <NavigationContainer>

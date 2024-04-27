@@ -2,20 +2,25 @@ import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Input, Button, Text } from "@rneui/themed";
 import loginStyles from "../css/login";
+import axios from "axios";
 
 export default function Login({ navigation }) {
-  const [loginInfo, setLoginInfo] = useState({
-    email: "",
-    password: ""
-  });
+  const [loginInfo, setLoginInfo] = useState({});
 
   const handleChange = (name, value) => {
     setLoginInfo({ ...loginInfo, [name]: value });
   };
 
-  const handleLogin = () => {
-    console.log("Logging in with:", loginInfo);
-    navigation.navigate("Register");
+  const handleLogin = async () => {
+    console.log(loginInfo)
+    await axios
+      .post("/users/login/", loginInfo)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -42,7 +47,10 @@ export default function Login({ navigation }) {
         keyboardType="default"
         secureTextEntry={true}
       />
-      <Text style={styles.forgotPassword} onPress={() => console.log("Forgot Password")}>
+      <Text
+        style={styles.forgotPassword}
+        onPress={() => console.log("Forgot Password")}
+      >
         Forgot Password?
       </Text>
       <Button
@@ -53,8 +61,11 @@ export default function Login({ navigation }) {
         titleStyle={styles.loginText}
       />
       <Text style={styles.registerText}>
-        Don't have an account? 
-        <Text style={styles.linkText} onPress={() => navigation.navigate("Register")}>
+        Don't have an account?
+        <Text
+          style={styles.linkText}
+          onPress={() => navigation.navigate("Register")}
+        >
           Register
         </Text>
       </Text>

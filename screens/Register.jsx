@@ -1,17 +1,11 @@
 import React, { useState } from "react";
-import { View, Image } from "react-native";
+import { View } from "react-native";
 import { Input, Button, Text } from "@rneui/themed";
 import registerStyles from "../css/register";
+import axios from "axios";
 
 export default function Register({ navigation }) {
-  const [registerInfo, setRegisterInfo] = useState({
-    username: "",
-    email: "",
-    password: "",
-    phone: "",
-    school: "",
-    image: null // For storing the selected image
-  });
+  const [registerInfo, setRegisterInfo] = useState({});
 
   const handleChange = (name, value) => {
     setRegisterInfo({ ...registerInfo, [name]: value });
@@ -20,22 +14,33 @@ export default function Register({ navigation }) {
   const handleImageUpload = (image) => {
     setRegisterInfo({ ...registerInfo, image });
   };
+  async function addUser() {
+    console.log(registerInfo);
+    await axios
+      .post("/users/", registerInfo)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   const handleRegister = () => {
     // Add your register logic here
     console.log("Registering with:", registerInfo);
     // Example navigation to Login screen after registration
-    navigation.navigate("Login");
+    // navigation.navigate("Login");
   };
 
   return (
     <View style={registerStyles.container}>
       <Input
         style={registerStyles.input}
-        name="username"
-        placeholder="Username"
+        name="userName"
+        placeholder="user Name"
         leftIcon={{ type: "font-awesome", name: "user" }}
-        onChangeText={(value) => handleChange("username", value)}
+        onChangeText={(value) => handleChange("userName", value)}
         inputStyle={{ paddingHorizontal: 10, color: "#000" }}
         placeholderTextColor="#000"
       />
@@ -79,14 +84,9 @@ export default function Register({ navigation }) {
         placeholderTextColor="#000"
       />
       <Button
-        title={registerInfo.image ? "Change Image" : "Upload Image"}
-        onPress={() => console.log("Upload Image")} // Implement image upload logic here
-        buttonStyle={registerStyles.uploadBtn}
-      />
-      <Button
         size="lg"
         buttonStyle={registerStyles.registerBtn}
-        onPress={handleRegister}
+        onPress={addUser}
         title="Register"
         titleStyle={registerStyles.registerText}
       />
